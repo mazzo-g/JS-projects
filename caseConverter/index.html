@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div class="title">Case Converter</div>
+    <div>
+        <label for="textarea"></label><textarea id="textarea"></textarea>
+    </div>
+    <div>
+        <button id="upper-case">Upper Case</button>
+        <button id="lower-case">Lower Case</button>
+        <button id="proper-case">Proper Case</button>
+        <button id="sentence-case">Sentence Case</button>
+        <button id="save-text-file">Save Text File</button>
+    </div>
+    <script>
+      function upperCase() {
+        const text = document.getElementById("textarea").value.toUpperCase();
+        document.getElementById("textarea").value = text;
+      }
+
+      function lowerCase() {
+        const text = document.getElementById("textarea").value.toLowerCase();
+        document.getElementById("textarea").value = text;
+      }
+
+      function properCase() {
+        let text = document.getElementById("textarea").value.toLowerCase().split(' ');
+        text = text.map(word => word.replace(word[0], word[0].toUpperCase())).join(' ');
+        document.getElementById("textarea").value = text;
+      }
+
+      function sentenceCase() {
+        let sentence = document.getElementById("textarea").value.toLowerCase().split('. ');
+        sentence = sentence.map(words => words.replace(words[0], words[0].toUpperCase())).join('. ');
+        document.getElementById("textarea").value = sentence;
+      }
+
+      function download(filename, text) {
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }
+
+      // Event listeners
+      const upperButton = document.getElementById("upper-case");
+      upperButton.addEventListener("click", upperCase);
+
+      const lowerButton = document.getElementById("lower-case");
+      lowerButton.addEventListener("click", lowerCase);
+
+      const properButton = document.getElementById("proper-case");
+      properButton.addEventListener("click", properCase);
+
+      const sentenceButton = document.getElementById("sentence-case");
+      sentenceButton.addEventListener("click", sentenceCase);
+
+      const saveTextFileButton = document.getElementById("save-text-file");
+      saveTextFileButton.addEventListener("click", () => download("text.txt",
+        document.getElementById("textarea").value)
+      );
+    </script>
+</body>
+</html>
